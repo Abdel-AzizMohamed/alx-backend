@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Define LIFOCache class"""
+"""Define LRUCache class"""
 from collections import OrderedDict
 from BaseCaching import BaseCaching
 
 
-class LIFOCache(BaseCaching):
-    """Define LIFOCache class"""
+class LRUCache(BaseCaching):
+    """Define LRUCache class"""
 
     def __init__(self):
-        """Init a new lifo object"""
+        """Initializes the cache."""
         super().__init__()
         self.cache_data = OrderedDict()
 
@@ -18,11 +18,15 @@ class LIFOCache(BaseCaching):
             return
         if key not in self.cache_data:
             if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
-                last_key, _ = self.cache_data.popitem(True)
-                print("DISCARD:", last_key)
-        self.cache_data[key] = item
-        self.cache_data.move_to_end(key, last=True)
+                lru_key, _ = self.cache_data.popitem(True)
+                print("DISCARD:", lru_key)
+            self.cache_data[key] = item
+            self.cache_data.move_to_end(key, last=False)
+        else:
+            self.cache_data[key] = item
 
     def get(self, key):
         """Get the given item From the given key"""
+        if key is not None and key in self.cache_data:
+            self.cache_data.move_to_end(key, last=False)
         return self.cache_data.get(key, None)
