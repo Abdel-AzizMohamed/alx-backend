@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Define BasicCache class"""
 from collections import OrderedDict
-from BaseCaching import BaseCaching
+from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
