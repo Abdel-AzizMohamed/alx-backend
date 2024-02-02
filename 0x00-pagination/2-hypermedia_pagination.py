@@ -46,13 +46,13 @@ class Server:
         """Returns a dict contains pages"""
         data = self.get_page(page, page_size)
         start, end = index_range(page, page_size)
-
-        hype_data = {}
-        hype_data["page_size"] = len(data)
-        hype_data["page"] = page
-        hype_data["data"] = data
-        hype_data["next_page"] = start + 1 if end < len(self.__dataset) else None
-        hype_data["prev_page"] = start - 1 if start > 1 else None
-        hype_data["total_pages"] = math.ceil(len(self.__dataset) / page_size)
-
+        total_pages = math.ceil(len(self.__dataset) / page_size)
+        hype_data = {
+            "page_size": len(data),
+            "page": page,
+            "data": data,
+            "next_page": page + 1 if end < len(self.__dataset) else None,
+            "prev_page": page - 1 if start > 0 else None,
+            "total_pages": total_pages,
+        }
         return hype_data
