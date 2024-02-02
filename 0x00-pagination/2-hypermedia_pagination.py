@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Define Server class"""
 import csv
-from typing import List, Tuple
+import math
+from typing import List, Tuple, Dict
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -40,3 +41,18 @@ class Server:
         if start > len(data):
             return []
         return data[start:end]
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
+        """Returns a dict contains pages"""
+        data = self.get_page(page, page_size)
+        start, end = index_range(page, page_size)
+
+        hype_data = {}
+        hype_data["page_size"] = len(data)
+        hype_data["page"] = page
+        hype_data["data"] = data
+        hype_data["next_page"] = start + 1 if end < len(self.__dataset) else None
+        hype_data["prev_page"] = start - 1 if start > 1 else None
+        hype_data["total_pages"] = math.ceil(len(self.__dataset) / page_size)
+
+        return hype_data
