@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+"""Define a basic flask project"""
 from flask import Flask, render_template
 
 app = Flask(__name__)
